@@ -63,5 +63,47 @@ public void search(int search)
     }
     System.out.println("Nao Encontrado");
 }    
-    
+public Node deleteNode(Node raiz ,int valor) {
+    // Return if empty tree
+    if (raiz == null) {
+      return raiz;
+    }
+
+    // Find the node to be deleted
+    if (valor < raiz.info) {
+      raiz.esq = deleteNode(raiz.esq, valor);
+    } else if (valor > raiz.info) {
+      raiz.dir = deleteNode(raiz.dir, valor);
+    } else {
+
+      // Case 1: No child
+      if (raiz.esq == null && raiz.dir == null) {
+        return null;
+      }
+
+      // Case 2: One child  
+      if (raiz.esq == null) {
+        Node temp = raiz.dir;
+        return temp;
+      } else if (raiz.dir == null) {
+        Node temp = raiz.esq;
+        return temp;
+      }
+
+      // Case 3: 2 children
+      Node successor = getSuccessor(raiz);
+      raiz.info = successor.info;
+      raiz.dir = deleteNode(raiz.dir, successor.info);
+    }
+    return raiz;
+  }
+
+  public Node getSuccessor(Node raiz) {
+    Node curr = raiz.dir;
+    while (curr != null && curr.esq != null) {
+      curr = curr.esq;
+    }
+    return curr;
+  } 
+ 
 }
